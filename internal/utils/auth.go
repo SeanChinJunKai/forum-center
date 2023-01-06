@@ -2,8 +2,11 @@ package utils
 
 import (
 	"errors"
+	"net/http"
 	"time"
 
+	"github.com/SeanChinJunKai/forum-center/internal/models"
+	"github.com/gin-gonic/gin"
 	"github.com/golang-jwt/jwt/v4"
 )
 
@@ -49,4 +52,27 @@ func ValidateToken(signedToken string) (err error) {
 		return
 	}
 	return
+}
+
+// Function to get current User
+func GetUserName(c *gin.Context) (string, models.ErrorResponse) {
+	cookie, _ := c.Cookie("gin_cookie")
+
+	token, err := jwt.ParseWithClaims(
+		cookie,
+		&Claim{},
+		func(token *jwt.Token) (interface{}, error) {
+			return []byte("secret"), nil
+		},
+	)
+	if err != nil {
+		return "", models.ErrorResponse{Code: http.StatusUnauthorized, Message: err.Error()}
+	}
+
+	claim, ok := token.Claims.(*Claim)
+
+	if !ok {
+		return "", models.ErrorResponse{Code: http.StatusUnauthorized, Message: "couldn't parse claims"}
+	}
+	return claim.Username, models.ErrorResponse{}
 }

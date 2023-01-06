@@ -11,16 +11,15 @@ type Post struct {
 	Title     string        `json:"title"`
 	Content   string        `json:"content"`
 	Tags      string        `json:"tags"`
-	Likes     []PostLike    `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;" json:"postlikes"`
-	Dislikes  []PostDislike `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;" json:"postdislikes"`
-	Comments  []Comment     `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;" json:"comments"`
+	Likes     []PostLike    `gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;" json:"likes"`
+	Dislikes  []PostDislike `gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;" json:"dislikes"`
+	Comments  []Comment     `gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;" json:"comments"`
 	UserID    uint          // foreign key
 }
 
 type CreatePostInput struct {
 	Title   string `json:"title"`
 	Content string `json:"content"`
-	Author  string `json:"author"`
 	Tags    string `json:"tags"`
 }
 

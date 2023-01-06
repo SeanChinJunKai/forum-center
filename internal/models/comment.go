@@ -11,11 +11,11 @@ type Comment struct {
 	Content   string `json:"content"`
 	PostID    uint   `json:"postid"` // foreign key
 	MainID    *uint
-	Replies   []Comment        `gorm:"foreignkey:MainID" constraint:"OnUpdate:CASCADE,OnDelete:SET NULL;"`
-	Likes     []CommentLike    `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;" json:"commentlikes"`
-	Dislike   []CommentDislike `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;" json:"commentdislikes"`
+	Replies   []Comment        `gorm:"foreignkey:MainID" constraint:"OnUpdate:CASCADE,OnDelete:CASCADE;"`
+	Likes     []CommentLike    `gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;" json:"commentlikes"`
+	Dislike   []CommentDislike `gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;" json:"commentdislikes"`
 	UserID    int
-	User      User `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;"`
+	User      User `gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
 }
 
 type CreateCommentInput struct {

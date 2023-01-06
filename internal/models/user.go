@@ -5,7 +5,7 @@ type User struct {
 	Name     string `json:"name"`
 	Email    string `json:"email"`
 	Password []byte `json:"password"`
-	Posts    []Post `gorm:"constraint:OnUpdate:CASCADE,OnDelete:SET NULL;" json:"posts"`
+	Posts    []Post `gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;" json:"posts"`
 }
 
 type CreateUserInput struct {

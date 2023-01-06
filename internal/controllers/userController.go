@@ -32,7 +32,7 @@ func RegisterUser(c *gin.Context) {
 		return
 	}
 
-	c.SetCookie("gin_cookie", token, 86400, "/", "localhost", true, true)
+	c.SetCookie("gin_cookie", token, 86400, "/", "localhost", false, true)
 	c.JSON(http.StatusCreated, gin.H{"name": user.Name, "email": user.Email})
 }
 
@@ -59,7 +59,7 @@ func LoginUser(c *gin.Context) {
 		return
 	}
 
-	c.SetCookie("gin_cookie", token, 86400, "/", "localhost", true, true)
+	c.SetCookie("gin_cookie", token, 86400, "/", "localhost", false, true)
 	c.JSON(http.StatusOK, gin.H{"name": user.Name, "email": user.Email})
 
 }
