@@ -18,7 +18,7 @@ func main() {
 		{
 			users.POST("/register", controllers.RegisterUser)
 			users.POST("/login", controllers.LoginUser)
-			//users.POST("/logout", controllers.LogoutUser)
+			users.POST("/logout", controllers.LogoutUser)
 		}
 	}
 

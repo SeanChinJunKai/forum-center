@@ -63,3 +63,8 @@ func LoginUser(c *gin.Context) {
 	c.JSON(http.StatusOK, gin.H{"name": user.Name, "email": user.Email})
 
 }
+
+func LogoutUser(c *gin.Context) {
+	c.SetCookie("gin_cookie", "", -1, "/", "localhost", false, true)
+	c.JSON(http.StatusOK, gin.H{"message": "Cookie deleted"})
+}
