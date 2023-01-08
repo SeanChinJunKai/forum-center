@@ -10,7 +10,7 @@ import (
 
 func GetPosts() []models.Post {
 	var posts []models.Post
-	config.DB.Model(&models.Post{}).Preload(clause.Associations).Find(&posts)
+	config.DB.Model(&models.Post{}).Preload("Comments.Likes").Preload("Comments.Dislikes").Preload(clause.Associations).Find(&posts)
 	return posts
 }
 
@@ -53,7 +53,7 @@ func UpdatePostLikes(username string, postId string) (models.Post, models.ErrorR
 	config.DB.Where("post_id=?", postId).Where("user_id=?", author.ID).Find(&findLike)
 	if findLike.ID != 0 {
 		config.DB.Unscoped().Delete(&findLike)
-		config.DB.Preload(clause.Associations).Find(&updatedPost, &specifiedPost)
+		config.DB.Preload("Comments.Likes").Preload("Comments.Dislikes").Preload(clause.Associations).Find(&updatedPost, &specifiedPost)
 
 	} else {
 		like := models.PostLike{
@@ -61,7 +61,7 @@ func UpdatePostLikes(username string, postId string) (models.Post, models.ErrorR
 			PostID: specifiedPost.ID,
 		}
 		config.DB.Create(&like)
-		config.DB.Preload(clause.Associations).Find(&updatedPost, &specifiedPost)
+		config.DB.Preload("Comments.Likes").Preload("Comments.Dislikes").Preload(clause.Associations).Find(&updatedPost, &specifiedPost)
 	}
 	return updatedPost, models.ErrorResponse{}
 }
@@ -79,7 +79,7 @@ func UpdatePostDislikes(username string, postId string) (models.Post, models.Err
 	config.DB.Where("post_id=?", postId).Where("user_id=?", author.ID).Find(&findDislike)
 	if findDislike.ID != 0 {
 		config.DB.Unscoped().Delete(&findDislike)
-		config.DB.Preload(clause.Associations).Find(&updatedPost, &specifiedPost)
+		config.DB.Preload("Comments.Likes").Preload("Comments.Dislikes").Preload(clause.Associations).Find(&updatedPost, &specifiedPost)
 
 	} else {
 		dislike := models.PostDislike{
@@ -87,7 +87,7 @@ func UpdatePostDislikes(username string, postId string) (models.Post, models.Err
 			PostID: specifiedPost.ID,
 		}
 		config.DB.Create(&dislike)
-		config.DB.Preload(clause.Associations).Find(&updatedPost, &specifiedPost)
+		config.DB.Preload("Comments.Likes").Preload("Comments.Dislikes").Preload(clause.Associations).Find(&updatedPost, &specifiedPost)
 	}
 	return updatedPost, models.ErrorResponse{}
 }
@@ -106,7 +106,7 @@ func UpdatePostContent(content string, username string, postId string) (models.P
 	}
 	specifiedPost.Content = content
 	config.DB.Save(&specifiedPost)
-	config.DB.Preload(clause.Associations).Find(&updatedPost, &specifiedPost)
+	config.DB.Preload("Comments.Likes").Preload("Comments.Dislikes").Preload(clause.Associations).Find(&updatedPost, &specifiedPost)
 	return updatedPost, models.ErrorResponse{}
 }
 
@@ -124,7 +124,7 @@ func UpdatePostTags(tags string, username string, postId string) (models.Post, m
 	}
 	specifiedPost.Tags = tags
 	config.DB.Save(&specifiedPost)
-	config.DB.Preload(clause.Associations).Find(&updatedPost, &specifiedPost)
+	config.DB.Preload("Comments.Likes").Preload("Comments.Dislikes").Preload(clause.Associations).Find(&updatedPost, &specifiedPost)
 	return updatedPost, models.ErrorResponse{}
 }
 
