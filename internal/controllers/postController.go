@@ -49,7 +49,7 @@ func CreatePost(c *gin.Context) {
 }
 
 func UpdatePost(c *gin.Context) {
-	fmt.Println("Updating Post")
+	fmt.Println("Updating Specified Post")
 	var input models.UpdatePostInput
 	if err := c.ShouldBindJSON(&input); err != nil {
 		c.JSON(http.StatusBadRequest, gin.H{"error": err.Error()})

@@ -16,7 +16,7 @@ func GetPosts() []models.Post {
 
 func GetPostById(postId string) (models.Post, models.ErrorResponse) {
 	var post models.Post
-	config.DB.Where("id=?", postId).Preload(clause.Associations).Find(&post)
+	config.DB.Where("id=?", postId).Preload("Comments.Likes").Preload("Comments.Dislikes").Preload(clause.Associations).Find(&post)
 	if post.ID == 0 {
 		return post, models.ErrorResponse{Code: http.StatusBadRequest, Message: "Specified post does not exist"}
 	}

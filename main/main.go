@@ -30,6 +30,12 @@ func main() {
 			post.DELETE("/:postId", middleware.Auth(), controllers.DeletePost)
 
 		}
+		comment := api.Group("/comment")
+		{
+			comment.POST("/", middleware.Auth(), controllers.CreateComment)
+			comment.PUT("/:commentId", middleware.Auth(), controllers.UpdateComment)
+			comment.DELETE("/:commentId", middleware.Auth(), controllers.DeleteComment)
+		}
 	}
 
 	router.Run(":8080")

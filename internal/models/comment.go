@@ -8,22 +8,22 @@ type Comment struct {
 	ID        uint `gorm:"primarykey"`
 	CreatedAt time.Time
 	UpdatedAt time.Time
-	Content   string `json:"content"`
-	PostID    uint   `json:"postid"` // foreign key
-	MainID    *uint
-	Replies   []Comment        `gorm:"foreignkey:MainID" constraint:"OnUpdate:CASCADE,OnDelete:CASCADE;"`
+	Content   string           `json:"content"`
+	PostID    uint             `json:"postid"`    // foreign key
+	Reference uint             `json:"reference"` // the commment u replying to
 	Likes     []CommentLike    `gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;" json:"commentlikes"`
-	Dislike   []CommentDislike `gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;" json:"commentdislikes"`
-	UserID    int
-	User      User `gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;"`
+	Dislikes  []CommentDislike `gorm:"constraint:OnUpdate:CASCADE,OnDelete:CASCADE;" json:"commentdislikes"`
+	UserID    uint
 }
 
 type CreateCommentInput struct {
 	Content   string `json:"content"`
 	PostID    uint   `json:"postid"`
-	Reference int    `json:"reference"`
+	Reference uint   `json:"reference"`
 }
 
 type UpdateCommentInput struct {
+	Like    bool   `json:"like"`
+	Dislike bool   `json:"dislike"`
 	Content string `json:"content"`
 }
